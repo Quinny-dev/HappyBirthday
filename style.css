@@ -1,4 +1,4 @@
-      * {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -13,6 +13,7 @@
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             overflow: hidden;
             position: relative;
+            touch-action: manipulation;
         }
 
         .confetti {
@@ -23,6 +24,7 @@
             position: absolute;
             animation: confetti-fall linear forwards;
             opacity: 0;
+            pointer-events: none;
         }
 
         @keyframes confetti-fall {
@@ -40,7 +42,7 @@
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
             border-radius: 30px;
-            padding: 3rem;
+            padding: 2rem;
             max-width: 900px;
             width: 90vw;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -48,7 +50,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 2rem;
+            gap: 1.5rem;
             animation: cardFloat 3s ease-in-out infinite;
             position: relative;
             z-index: 1;
@@ -91,10 +93,6 @@
             transition: transform 0.3s ease;
         }
 
-        .image-container:hover .birthday {
-            transform: scale(1.05);
-        }
-
         .text {
             text-align: center;
             color: white;
@@ -113,7 +111,7 @@
         }
 
         h1 {
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-size: clamp(1.3rem, 5vw, 2.5rem);
             margin-bottom: 1rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             animation: rainbow 5s ease-in-out infinite;
@@ -135,7 +133,7 @@
         }
 
         p {
-            font-size: clamp(1rem, 3vw, 1.3rem);
+            font-size: clamp(0.9rem, 3vw, 1.3rem);
             line-height: 1.6;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
             animation: pulse 2s ease-in-out infinite;
@@ -172,9 +170,10 @@
         .balloons {
             position: fixed;
             bottom: -100px;
-            font-size: 50px;
+            font-size: 40px;
             animation: balloonFloat 8s ease-in-out infinite;
             z-index: 0;
+            pointer-events: none;
         }
 
         @keyframes balloonFloat {
@@ -192,10 +191,11 @@
         .dancing-parrot {
             position: fixed;
             bottom: -150px;
-            width: 100px;
+            width: 80px;
             height: auto;
             animation: parrotFloat 10s ease-in-out infinite;
             z-index: 0;
+            pointer-events: none;
         }
 
         @keyframes parrotFloat {
@@ -218,13 +218,13 @@
 
         .firework-particle {
             position: fixed;
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             pointer-events: none;
             animation: firework-explode 1.5s ease-out forwards;
             z-index: 1000;
-            box-shadow: 0 0 20px currentColor, 0 0 40px currentColor, 0 0 60px currentColor;
+            box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
             filter: brightness(1.5);
         }
 
@@ -245,8 +245,65 @@
             }
         }
 
+        /* Mobile optimizations */
         @media only screen and (max-width: 768px) {
+            body {
+                background-attachment: fixed;
+            }
+
             .card {
-                padding: 2rem;
+                padding: 1.5rem;
+                gap: 1rem;
+                animation: none; /* Disable floating on mobile for performance */
+            }
+
+            .balloons {
+                font-size: 30px;
+            }
+
+            .dancing-parrot {
+                width: 60px;
+            }
+
+            .firework-particle {
+                width: 8px;
+                height: 8px;
+                box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+            }
+
+            h1 {
+                font-size: clamp(1.2rem, 6vw, 2rem);
+            }
+
+            p {
+                font-size: clamp(0.85rem, 4vw, 1.1rem);
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .card {
+                width: 95vw;
+                padding: 1.2rem;
+            }
+
+            .image-container {
+                max-width: 100%;
+            }
+
+            .balloons {
+                font-size: 25px;
+            }
+
+            .dancing-parrot {
+                width: 50px;
+            }
+        }
+
+        /* Reduce animations on low-end devices */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
